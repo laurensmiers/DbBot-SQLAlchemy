@@ -36,14 +36,14 @@ class RobotResultsParser(object):
         try:
             test_run_id = self._db.insert('test_runs', {
                 'hash': hash_string,
-                'source_file': test_run.source,
+                'source_file': str(test_run.source),
                 'imported_at': datetime.datetime.now(datetime.UTC),
                 'started_at': self._format_robot_timestamp(test_run.suite.starttime),
                 'finished_at': self._format_robot_timestamp(test_run.suite.endtime)
             })
         except IntegrityError:
             test_run_id = self._db.fetch_id('test_runs', {
-                'source_file': test_run.source,
+                'source_file': str(test_run.source),
                 'started_at': self._format_robot_timestamp(test_run.suite.starttime),
                 'finished_at': self._format_robot_timestamp(test_run.suite.endtime)
             })
@@ -109,13 +109,13 @@ class RobotResultsParser(object):
                 'suite_id': parent_suite_id,
                 'xml_id': suite.id,
                 'name': suite.name,
-                'source': suite.source,
+                'source': str(suite.source),
                 'doc': suite.doc
             })
         except IntegrityError:
             suite_id = self._db.fetch_id('suites', {
                 'name': suite.name,
-                'source': suite.source
+                'source': str(suite.source)
             })
         self._parse_suite_status(test_run_id, suite_id, suite)
         self._parse_suites(suite, test_run_id, suite_id)
