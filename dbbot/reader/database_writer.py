@@ -167,7 +167,7 @@ class DatabaseWriter(object):
 
     def fetch_id(self, table_name, criteria):
         table = getattr(self, table_name)
-        sql_statement = select([table.c.id]).where(
+        sql_statement = select(table.c.id).where(
             and_(*(getattr(table.c, key) == value for key, value in criteria.items()))
         )
         result = self._connection.execute(sql_statement).first()
@@ -178,7 +178,7 @@ class DatabaseWriter(object):
 
     def insert(self, table_name, criteria):
         sql_statement = getattr(self, table_name).insert()
-        result = self._connection.execute(sql_statement, **criteria)
+        result = self._connection.execute(sql_statement, criteria)
         return result.inserted_primary_key[0]
 
     def insert_or_ignore(self, table_name, criteria):
@@ -190,4 +190,5 @@ class DatabaseWriter(object):
 
     def close(self):
         self._verbose('- Closing database connection')
+        self._connection.commit()
         self._connection.close()
