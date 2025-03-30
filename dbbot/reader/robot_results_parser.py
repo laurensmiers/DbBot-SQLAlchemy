@@ -120,7 +120,6 @@ class RobotResultsParser(object):
         self._parse_suite_status(test_run_id, suite_id, suite)
         self._parse_suites(suite, test_run_id, suite_id)
         self._parse_tests(suite.tests, test_run_id, suite_id)
-        self._parse_keywords(suite.keywords, test_run_id, suite_id, None)
 
     def _parse_suite_status(self, test_run_id, suite_id, suite):
         self._db.insert_or_ignore('suite_status', {
@@ -155,7 +154,7 @@ class RobotResultsParser(object):
             })
         self._parse_test_status(test_run_id, test_id, test)
         self._parse_tags(test.tags, test_id)
-        self._parse_keywords(test.keywords, test_run_id, None, test_id)
+        self._parse_keywords(test.body, test_run_id, None, test_id)
 
     def _parse_test_status(self, test_run_id, test_id, test):
         self._db.insert_or_ignore('test_status', {
@@ -194,7 +193,7 @@ class RobotResultsParser(object):
         self._parse_keyword_status(test_run_id, keyword_id, keyword)
         self._parse_messages(keyword.messages, keyword_id)
         self._parse_arguments(keyword.args, keyword_id)
-        self._parse_keywords(keyword.keywords, test_run_id, None, None, keyword_id)
+        self._parse_keywords(keyword.body, test_run_id, None, None, keyword_id)
 
     def _parse_keyword_status(self, test_run_id, keyword_id, keyword):
         self._db.insert_or_ignore('keyword_status', {
