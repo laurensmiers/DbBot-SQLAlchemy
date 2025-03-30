@@ -11,7 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-from sqlalchemy import create_engine, Column, DateTime, ForeignKey, Integer, MetaData, Sequence, String, Table, Text, \
+from sqlalchemy import create_engine, Column, DateTime, ForeignKey, Interval, Integer, MetaData, Sequence, String, Table, Text, \
     UniqueConstraint
 from sqlalchemy.sql import and_, select
 from sqlalchemy.exc import IntegrityError
@@ -57,7 +57,7 @@ class DatabaseWriter(object):
         return self._create_table('test_run_status', (
             Column('test_run_id', Integer, ForeignKey('test_runs.id'), nullable=False),
             Column('name', String(256), nullable=False),
-            Column('elapsed', Integer),
+            Column('elapsed', Interval),
             Column('failed', Integer, nullable=False),
             Column('passed', Integer, nullable=False)
         ), ('test_run_id', 'name'))
@@ -76,7 +76,7 @@ class DatabaseWriter(object):
             Column('test_run_id', Integer, ForeignKey('test_runs.id'), nullable=False),
             Column('name', String(256), nullable=False),
             Column('critical', Integer, nullable=False),
-            Column('elapsed', Integer),
+            Column('elapsed', Interval),
             Column('failed', Integer, nullable=False),
             Column('passed', Integer, nullable=False)
         ), ('test_run_id', 'name'))
@@ -94,7 +94,7 @@ class DatabaseWriter(object):
         return self._create_table('suite_status', (
             Column('test_run_id', Integer, ForeignKey('test_runs.id'), nullable=False),
             Column('suite_id', Integer, ForeignKey('suites.id'), nullable=False),
-            Column('elapsed', Integer, nullable=False),
+            Column('elapsed', Interval, nullable=False),
             Column('failed', Integer, nullable=False),
             Column('passed', Integer, nullable=False),
             Column('status', String(4), nullable=False)
@@ -114,7 +114,7 @@ class DatabaseWriter(object):
             Column('test_run_id', Integer, ForeignKey('test_runs.id'), nullable=False),
             Column('test_id', Integer, ForeignKey('tests.id'), nullable=False),
             Column('status', String(4), nullable=False),
-            Column('elapsed', Integer, nullable=False)
+            Column('elapsed', Interval, nullable=False),
         ), ('test_run_id', 'test_id'))
 
     def _create_table_keywords(self):
@@ -133,7 +133,7 @@ class DatabaseWriter(object):
             Column('test_run_id', Integer, ForeignKey('test_runs.id'), nullable=False),
             Column('keyword_id', Integer, ForeignKey('keywords.id'), nullable=False),
             Column('status', String(4), nullable=False),
-            Column('elapsed', Integer, nullable=False)
+            Column('elapsed', Interval, nullable=False),
         ))
 
     def _create_table_messages(self):

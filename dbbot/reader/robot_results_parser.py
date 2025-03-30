@@ -128,7 +128,7 @@ class RobotResultsParser(object):
             'suite_id': suite_id,
             'passed': suite.statistics.all.passed,
             'failed': suite.statistics.all.failed,
-            'elapsed': suite.elapsedtime,
+            'elapsed': suite.elapsed_time,
             'status': suite.status
         })
 
@@ -162,7 +162,7 @@ class RobotResultsParser(object):
             'test_run_id': test_run_id,
             'test_id': test_id,
             'status': test.status,
-            'elapsed': test.elapsedtime
+            'elapsed': test.elapsed_time
         })
 
     def _parse_tags(self, tags, test_id):
@@ -199,7 +199,7 @@ class RobotResultsParser(object):
             'test_run_id': test_run_id,
             'keyword_id': keyword_id,
             'status': keyword.status,
-            'elapsed': keyword.elapsedtime
+            'elapsed': keyword.elapsed_time
         })
 
     def _parse_messages(self, messages, keyword_id):
