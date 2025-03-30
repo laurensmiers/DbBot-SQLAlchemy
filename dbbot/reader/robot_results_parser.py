@@ -12,7 +12,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 from __future__ import with_statement
-from datetime import datetime
+import datetime
+
 from hashlib import sha1
 from robot.api import ExecutionResult
 from sqlalchemy.exc import IntegrityError
@@ -35,8 +36,8 @@ class RobotResultsParser(object):
         try:
             test_run_id = self._db.insert('test_runs', {
                 'hash': hash_string,
-                'imported_at': datetime.utcnow(),
                 'source_file': test_run.source,
+                'imported_at': datetime.datetime.now(datetime.UTC),
                 'started_at': self._format_robot_timestamp(test_run.suite.starttime),
                 'finished_at': self._format_robot_timestamp(test_run.suite.endtime)
             })
@@ -220,7 +221,7 @@ class RobotResultsParser(object):
 
     @staticmethod
     def _format_robot_timestamp(timestamp):
-        return datetime.strptime(timestamp, '%Y%m%d %H:%M:%S.%f') if timestamp else None
+        return datetime.datetime.strptime(timestamp, '%Y%m%d %H:%M:%S.%f') if timestamp else None
 
     @staticmethod
     def _string_hash(string):
