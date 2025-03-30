@@ -126,7 +126,7 @@ class DatabaseWriter(object):
             Column('type', String(64), nullable=False),
             Column('timeout', String(4)),
             Column('doc', Text)
-        ), ('name', 'type'))
+        ))
 
     def _create_table_keyword_status(self):
         return self._create_table('keyword_status', (
