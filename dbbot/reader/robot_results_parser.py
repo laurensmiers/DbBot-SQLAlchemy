@@ -126,8 +126,8 @@ class RobotResultsParser(object):
         self._db.insert_or_ignore('suite_status', {
             'test_run_id': test_run_id,
             'suite_id': suite_id,
-            'passed': suite.statistics.all.passed,
-            'failed': suite.statistics.all.failed,
+            'passed': suite.statistics.passed,
+            'failed': suite.statistics.failed,
             'elapsed': suite.elapsed_time,
             'status': suite.status
         })
